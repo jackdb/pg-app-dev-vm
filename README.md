@@ -61,7 +61,7 @@ Once it has started up it will print out how to access the database on the virtu
 
 ### License
 
-This is released under the MIT license. See the file [LICENSE].
+This is released under the MIT license. See the file [LICENSE](LICENSE).
 
 [Virtual Box]: https://www.virtualbox.org/
 [Vagrant]: http://www.vagrantup.com/
