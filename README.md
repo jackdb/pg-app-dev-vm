@@ -59,6 +59,12 @@ Once it has started up it will print out how to access the database on the virtu
     Local command to access the database via psql:
       PGUSER=myapp PGPASSWORD=dbpass psql -h localhost -p 15432 myapp
 
+### Why use the shell provisioner?
+
+Or alternatively, why not [Chef](http://www.getchef.com/chef/), [Puppet](http://puppetlabs.com/), [Ansible](http://www.ansibleworks.com/), or [Salt](http://www.saltstack.com/)?
+
+Mainly because it's simple and anybody with a basic knowledge of shell scripting can tweak the `bootstrap.sh` to their liking.
+
 ### License
 
 This is released under the MIT license. See the file [LICENSE](LICENSE).
