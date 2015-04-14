@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 # Edit the following to change the name of the database user that will be created:
-APP_DB_USER=myapp
-APP_DB_PASS=dbpass
+APP_DB_USER=vagrant
+APP_DB_PASS=vagrant
 
 # Edit the following to change the name of the database that is created (defaults to the user name)
 APP_DB_NAME=$APP_DB_USER
@@ -16,7 +16,7 @@ PG_VERSION=9.3
 print_db_usage () {
   echo "Your PostgreSQL database has been setup and can be accessed on your local machine on the forwarded port (default: 15432)"
   echo "  Host: localhost"
-  echo "  Port: 15432"
+  echo "  Port: 25432"
   echo "  Database: $APP_DB_NAME"
   echo "  Username: $APP_DB_USER"
   echo "  Password: $APP_DB_PASS"
@@ -31,10 +31,10 @@ print_db_usage () {
   echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -h localhost $APP_DB_NAME"
   echo ""
   echo "Env variable for application development:"
-  echo "  DATABASE_URL=postgresql://$APP_DB_USER:$APP_DB_PASS@localhost:15432/$APP_DB_NAME"
+  echo "  DATABASE_URL=postgresql://$APP_DB_USER:$APP_DB_PASS@localhost:25432/$APP_DB_NAME"
   echo ""
   echo "Local command to access the database via psql:"
-  echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -h localhost -p 15432 $APP_DB_NAME"
+  echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -h localhost -p 25432 $APP_DB_NAME"
 }
 
 export DEBIAN_FRONTEND=noninteractive
@@ -53,7 +53,7 @@ PG_REPO_APT_SOURCE=/etc/apt/sources.list.d/pgdg.list
 if [ ! -f "$PG_REPO_APT_SOURCE" ]
 then
   # Add PG apt repo:
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > "$PG_REPO_APT_SOURCE"
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > "$PG_REPO_APT_SOURCE"
 
   # Add PGDG repo key:
   wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
@@ -63,7 +63,17 @@ fi
 apt-get update
 apt-get -y upgrade
 
-apt-get -y install "postgresql-$PG_VERSION" "postgresql-contrib-$PG_VERSION"
+while ! apt-get -y install postgresql-9.3-postgis-2.1 postgresql-contrib postgis
+do
+    echo "apt-get install of postgres/postgis failed. Trying again..." >&2
+    sleep 1
+done
+
+while ! apt-get -y install postgresql-server-dev-9.3
+do
+    echo "apt-get install of postgres-server-dev failed. Trying again..." >&2
+    sleep 1
+done
 
 PG_CONF="/etc/postgresql/$PG_VERSION/main/postgresql.conf"
 PG_HBA="/etc/postgresql/$PG_VERSION/main/pg_hba.conf"
@@ -92,6 +102,10 @@ CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
                                   ENCODING='UTF8'
                                   TEMPLATE=template0;
 EOF
+
+# Enable postgis for db
+sudo -u postgres psql -d $APP_DB_NAME -c "CREATE EXTENSION postgis;"
+sudo -u postgres psql -d $APP_DB_NAME -c "CREATE EXTENSION postgis_topology;"
 
 # Tag the provision time:
 date > "$PROVISIONED_ON"
