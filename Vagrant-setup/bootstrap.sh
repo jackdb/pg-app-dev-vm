@@ -103,6 +103,21 @@ CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
                                   TEMPLATE=template0;
 EOF
 
+cat << EOF | su - postgres -c psql
+-- Create a staging database:
+CREATE DATABASE staging WITH OWNER=$APP_DB_USER
+                                  LC_COLLATE='en_US.utf8'
+                                  LC_CTYPE='en_US.utf8'
+                                  ENCODING='UTF8'
+                                  TEMPLATE=template0;
+EOF
+
+# Enable postgis for staging db
+#alter schema permissions to allow filegdb import
+sudo -u postgres psql -d staging -c "CREATE EXTENSION postgis;"
+sudo -u postgres psql -d staging -c "CREATE EXTENSION postgis_topology;"
+sudo -u postgres psql -d staging -c "ALTER SCHEMA public OWNER TO vagrant;"
+
 # Enable postgis for db
 sudo -u postgres psql -d $APP_DB_NAME -c "CREATE EXTENSION postgis;"
 sudo -u postgres psql -d $APP_DB_NAME -c "CREATE EXTENSION postgis_topology;"
