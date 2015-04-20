@@ -10,9 +10,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: $script
 
   config.vm.provider "virtualbox" do |v|
-	  v.memory = 2048
+	  v.memory = 2048 #postgis might need more than this
 	  v.cpus = 1
 	end
+
 end
 
 Vagrant::Config.run do |config|
@@ -20,7 +21,8 @@ Vagrant::Config.run do |config|
 
   config.vm.share_folder "bootstrap", "/mnt/bootstrap", ".", :create => true
   config.vm.provision :shell, :path => "Vagrant-setup/bootstrap.sh"
-  
+  config.vm.provision :shell, :path => "Vagrant-setup/compile_gdal.sh"
+ 
   # PostgreSQL Server port forwarding
   config.vm.forward_port 5432, 25432
 end
