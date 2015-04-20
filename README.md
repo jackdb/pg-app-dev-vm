@@ -1,6 +1,6 @@
 ### What is it?
 
-A Vagrant configuration that starts up a PostgreSQL database in a virtual machine for local application development.
+A Vagrant configuration that starts up a PostgreSQL/PostGIS database in a virtual machine for local application development.
 
 ### Installation
 
