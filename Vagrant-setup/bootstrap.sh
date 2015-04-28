@@ -8,7 +8,7 @@ APP_DB_PASS=dbpass
 APP_DB_NAME=$APP_DB_USER
 
 # Edit the following to change the version of PostgreSQL that is installed
-PG_VERSION=9.3
+PG_VERSION=9.4
 
 ###########################################################
 # Changes below this line are probably not necessary
@@ -53,7 +53,7 @@ PG_REPO_APT_SOURCE=/etc/apt/sources.list.d/pgdg.list
 if [ ! -f "$PG_REPO_APT_SOURCE" ]
 then
   # Add PG apt repo:
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > "$PG_REPO_APT_SOURCE"
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > "$PG_REPO_APT_SOURCE"
 
   # Add PGDG repo key:
   wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
