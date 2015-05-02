@@ -30,7 +30,7 @@ Then, run the following to create a new PostgreSQL app dev virtual machine:
 
 ### What does it do?
 
-It creates a virtual server running Ubuntu 12.04 with the latest version of PostgreSQL (*as of writing 9.3*) installed. It also edits the PostgreSQL configuration files to allow network access and creates a database user/database for your application to use.
+It creates a virtual server running Ubuntu 14.04 with the latest version of PostgreSQL (*as of writing 9.4*) installed. It also edits the PostgreSQL configuration files to allow network access and creates a database user/database for your application to use.
 
 Once it has started up it will print out how to access the database on the virtual machine. It will look something like this:
 
@@ -70,4 +70,4 @@ Mainly because it's simple and anybody with a basic knowledge of shell scripting
 This is released under the MIT license. See the file [LICENSE](LICENSE).
 
 [Virtual Box]: https://www.virtualbox.org/
-[Vagrant]: http://www.vagrantup.com/
+Vagrant]: http://www.vagrantup.com/
