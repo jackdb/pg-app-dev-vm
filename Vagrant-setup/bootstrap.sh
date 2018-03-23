@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 # Edit the following to change the name of the database user that will be created:
 APP_DB_USER=myapp
@@ -13,6 +13,12 @@ PG_VERSION=9.4
 ###########################################################
 # Changes below this line are probably not necessary
 ###########################################################
+
+# Make sure we get UTF-8
+locale-gen en_US.UTF-8
+update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
+source /etc/default/locale
+
 print_db_usage () {
   echo "Your PostgreSQL database has been setup and can be accessed on your local machine on the forwarded port (default: 15432)"
   echo "  Host: localhost"
@@ -83,7 +89,7 @@ service postgresql restart
 
 cat << EOF | su - postgres -c psql
 -- Create the database user:
-CREATE USER $APP_DB_USER WITH PASSWORD '$APP_DB_PASS';
+CREATE USER $APP_DB_USER WITH CREATEDB PASSWORD '$APP_DB_PASS';
 
 -- Create the database:
 CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
