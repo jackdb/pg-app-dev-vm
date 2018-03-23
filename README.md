@@ -70,4 +70,4 @@ Mainly because it's simple and anybody with a basic knowledge of shell scripting
 This is released under the MIT license. See the file [LICENSE](LICENSE).
 
 [Virtual Box]: https://www.virtualbox.org/
-Vagrant]: http://www.vagrantup.com/
+[Vagrant]: http://www.vagrantup.com/
