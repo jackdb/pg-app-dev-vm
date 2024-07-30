@@ -31,10 +31,10 @@ print_db_usage () {
   echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -h localhost $APP_DB_NAME"
   echo ""
   echo "Env variable for application development:"
-  echo "  DATABASE_URL=postgresql://$APP_DB_USER:$APP_DB_PASS@localhost:15432/$APP_DB_NAME"
+  echo "  DATABASE_URL=postgresql://$APP_DB_USER:$APP_DB_PASS@localhost:5432/$APP_DB_NAME"
   echo ""
   echo "Local command to access the database via psql:"
-  echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -h localhost -p 15432 $APP_DB_NAME"
+  echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -h localhost -p 5432 $APP_DB_NAME"
 }
 
 export DEBIAN_FRONTEND=noninteractive
@@ -53,10 +53,10 @@ PG_REPO_APT_SOURCE=/etc/apt/sources.list.d/pgdg.list
 if [ ! -f "$PG_REPO_APT_SOURCE" ]
 then
   # Add PG apt repo:
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > "$PG_REPO_APT_SOURCE"
+  echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ trusty-pgdg main" > "$PG_REPO_APT_SOURCE"
 
   # Add PGDG repo key:
-  wget --quiet -O - https://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 fi
 
 # Update package list and upgrade all packages
